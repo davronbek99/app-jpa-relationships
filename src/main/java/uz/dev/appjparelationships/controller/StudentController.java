@@ -68,11 +68,11 @@ public class StudentController {
             return "Group not found";
         }
         student.setGroup(optionalGroup.get());
-        Optional<Address> optionalAddress = addressRepository.findById(studentDto.getAddressId());
-        if (optionalAddress.isEmpty()) {
-            return "Address not found";
-        }
-        student.setAddress(optionalAddress.get());
+//        Optional<Address> optionalAddress = addressRepository.findById(studentDto.getAddressId());
+//        if (optionalAddress.isEmpty()) {
+//            return "Address not found";
+//        }
+//        student.setAddress(optionalAddress.get());
 
 //        if ()
         student.setSubjectList(studentDto.getSubjectList());
