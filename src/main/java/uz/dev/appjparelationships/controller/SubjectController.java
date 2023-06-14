@@ -6,6 +6,7 @@ import uz.dev.appjparelationships.entity.Subject;
 import uz.dev.appjparelationships.repository.SubjectRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/subject")
@@ -15,7 +16,7 @@ public class SubjectController {
     SubjectRepository subjectRepository;
 
     // CREATE
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String addSubject(@RequestBody Subject subject) {
         boolean existsByName = subjectRepository.existsByName(subject.getName());
         if (existsByName) {
@@ -32,4 +33,21 @@ public class SubjectController {
         return subjectList;
     }
 
+    @PutMapping("/{id}")
+    public String editSubject(@PathVariable Integer id, @RequestBody Subject subject) {
+        Optional<Subject> optionalSubject = subjectRepository.findById(id);
+        if (optionalSubject.isPresent()) {
+            Subject editedSubject = optionalSubject.get();
+            editedSubject.setName(subject.getName());
+            subjectRepository.save(editedSubject);
+            return "Subject edited";
+        }
+        return "Subject not found";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteSubject(@PathVariable Integer id) {
+        subjectRepository.deleteById(id);
+        return "Subject deleted";
+    }
 }

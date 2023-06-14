@@ -72,7 +72,7 @@ public class FacultyController {
             faculty.setName(facultyDto.getName());
             faculty.setId(id);
             Optional<University> optionalUniversity = universityRepository.findById(facultyDto.getUniversityId());
-            if (!optionalUniversity.isPresent()) {
+            if (optionalUniversity.isEmpty()) {
                 return "University not found";
             }
             faculty.setUniversity(optionalUniversity.get());

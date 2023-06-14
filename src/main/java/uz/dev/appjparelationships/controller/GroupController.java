@@ -52,4 +52,33 @@ public class GroupController {
         return "Group added";
     }
 
+    @PutMapping("/{id}")
+    public String editGroup(@PathVariable Integer id, @RequestBody GroupDto groupDto) {
+        Optional<Group> optionalGroup = groupRepository.findById(id);
+
+        Optional<Faculty> optionalFaculty = facultyRepository.findById(groupDto.getFacultyId());
+        if (optionalFaculty.isEmpty()) {
+            return "Such faculty not found";
+        }
+        if (optionalGroup.isPresent()) {
+            Group group = optionalGroup.get();
+            group.setName(groupDto.getName());
+            group.setFaculty(optionalFaculty.get());
+            groupRepository.save(group);
+            return "group edited";
+        }
+
+        return "Group not found";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteGroup(@PathVariable Integer id) {
+        try {
+            groupRepository.deleteById(id);
+            return "group deleted";
+        } catch (Exception e) {
+            return "Error in deleting";
+        }
+    }
+
 }
